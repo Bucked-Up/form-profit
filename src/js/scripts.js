@@ -1,5 +1,5 @@
 
-const form = document.querySelector("#custom-form");
+const form = document.querySelector("#form-wholesale");
 const allInputs = form.querySelectorAll("input");
 
 const createInvalid = (text) => {

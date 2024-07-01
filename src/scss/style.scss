@@ -19,7 +19,7 @@
   }
   h3 {
     color: #0a0a0a;
-    font-family: 'Sui Generis';
+    font-family: sui-generis, sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -121,7 +121,7 @@
             border-radius: 0.5rem 0.5rem 0 0;
           }
           &__options {
-            padding: 0.625rem .875rem 0 .875rem;
+            padding: 0.625rem 0.875rem 0 0.875rem;
             border-bottom-width: 0.0625rem;
           }
           &__option {
@@ -291,7 +291,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:1rem;
+    gap: 1rem;
     width: 100%;
     background-color: #001aff;
     color: #fbfbfb;
@@ -313,7 +313,7 @@
       &:focus {
         background-color: transparent;
         color: #001aff;
-        .lds-dual-ring:after{
+        .lds-dual-ring:after {
           border-color: #001aff transparent #001aff transparent;
         }
       }
@@ -342,7 +342,7 @@
   display: none;
   width: 1.25rem;
   height: 1.25rem;
-  &.active{
+  &.active {
     display: inline-block;
   }
   &:after {

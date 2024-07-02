@@ -152,7 +152,7 @@ form.addEventListener("submit", async (e) => {
   button.toggleAttribute("disabled");
   spinner.classList.toggle("active");
   const industryValue = document.getElementById("industry").value;
-  if(industryValue === "Individual"){
+  if(industryValue === "Individual" || industryValue === "Amazon"){
     const urlParams = new URLSearchParams()
     urlParams.set("first-name",document.querySelector("#first-name").value)
     urlParams.set("last-name",document.querySelector("#last-name").value)
@@ -189,5 +189,4 @@ form.addEventListener("submit", async (e) => {
     spinner.classList.toggle("active");
     return;
   }
-  window.location.href = redirectUrls[industryValue]
 });

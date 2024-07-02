@@ -168,5 +168,14 @@ form.addEventListener("submit", async (e) => {
     spinner.classList.toggle("active");
     return;
   }
-  document.querySelector(".thank-you-modal-whole")?.style.display = "flex";
+  const modal = document.querySelector(".thank-you-modal-whole");
+  if (modal) modal.style.display = "flex";
+  try {
+    fbq("track", "Lead");
+  } catch (e) {
+    console.warn("fbq lead failed.", e);
+  }
+  setTimeout(() => {
+    window.location.href = "https://buckedup.com"
+  }, 5000);
 });

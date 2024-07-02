@@ -1,4 +1,3 @@
-
 const form = document.querySelector("#form-wholesale");
 const allInputs = form.querySelectorAll("input");
 
@@ -14,23 +13,14 @@ const checkInput = (input) => {
 
   const valueIsNotValid = () => {
     return (
-      (regex && !reg.test(input.value)) ||
-      (match && input.value !== match.value) ||
-      (matcher && input.value !== matcher.value && matcher.value.length !== 0)
+      (regex && !reg.test(input.value)) || (match && input.value !== match.value) || (matcher && input.value !== matcher.value && matcher.value.length !== 0)
     );
   };
 
   if (input.type === "checkbox" && !input.checked) return false;
-  if (
-    (!input.hasAttribute("optional") && input.value.trim().length === 0) ||
-    valueIsNotValid()
-  ) {
+  if ((!input.hasAttribute("optional") && input.value.trim().length === 0) || valueIsNotValid()) {
     input.classList.add("error");
-    if (
-      valueIsNotValid() &&
-      input.value.trim().length > 0 &&
-      !input.nextElementSibling?.classList.contains("error-text")
-    ) {
+    if (valueIsNotValid() && input.value.trim().length > 0 && !input.nextElementSibling?.classList.contains("error-text")) {
       input.insertAdjacentHTML("afterend", createInvalid("Invalid!"));
     }
     return false;
@@ -38,12 +28,9 @@ const checkInput = (input) => {
   input.classList.remove("error");
   matcher?.classList.remove("error");
   match?.classList.remove("error");
-  if (input.nextElementSibling?.classList.contains("error-text"))
-    input.nextElementSibling.remove();
-  if (matcher?.nextElementSibling?.classList.contains("error-text"))
-    matcher?.nextElementSibling.remove();
-  if (match?.nextElementSibling?.classList.contains("error-text"))
-    match?.nextElementSibling.remove();
+  if (input.nextElementSibling?.classList.contains("error-text")) input.nextElementSibling.remove();
+  if (matcher?.nextElementSibling?.classList.contains("error-text")) matcher?.nextElementSibling.remove();
+  if (match?.nextElementSibling?.classList.contains("error-text")) match?.nextElementSibling.remove();
   return true;
 };
 
@@ -68,16 +55,13 @@ const updateStates = async () => {
   stateSelect.toggleAttribute("disabled");
   const body = {};
   body.country = "United States";
-  const response = await fetch(
-    `https://countriesnow.space/api/v0.1/countries/states`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  const response = await fetch(`https://countriesnow.space/api/v0.1/countries/states`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
   const responseJson = await response.json();
   if (!response.ok) {
     alert("There was a problem fetching the states of the selected country.");
@@ -118,9 +102,7 @@ const validateForm = () => {
       select.addEventListener("change", () => {
         if (select.value !== "") {
           select.classList.remove("error");
-          document
-            .querySelector(`[original-id="${select.id}"]`)
-            .classList.remove("error");
+          document.querySelector(`[original-id="${select.id}"]`).classList.remove("error");
         }
       });
     }
@@ -136,9 +118,9 @@ const getValues = () => {
   formFields.email = document.querySelector("#email").value;
   formFields.phone = document.querySelector("#phone").value;
   formFields.industry = document.querySelector("#industry").value;
-  formFields.address = {}
+  formFields.address = {};
   formFields.address.city = document.querySelector("#city").value;
-  formFields.address.country_code = "US"
+  formFields.address.country_code = "US";
   formFields.address.state = document.querySelector("#state").value;
   return formFields;
 };
@@ -152,17 +134,17 @@ form.addEventListener("submit", async (e) => {
   button.toggleAttribute("disabled");
   spinner.classList.toggle("active");
   const industryValue = document.getElementById("industry").value;
-  if(industryValue === "Individual" || industryValue === "Amazon"){
-    const urlParams = new URLSearchParams()
-    urlParams.set("first-name",document.querySelector("#first-name").value)
-    urlParams.set("last-name",document.querySelector("#last-name").value)
-    urlParams.set("email",document.querySelector("#email").value)
-    urlParams.set("phone",document.querySelector("#phone").value)
-    urlParams.set("state",document.querySelector("#state").value)
-    urlParams.set("city",document.querySelector("#city").value)
+  if (industryValue === "Individual" || industryValue === "Amazon") {
+    const urlParams = new URLSearchParams();
+    urlParams.set("first-name", document.querySelector("#first-name").value);
+    urlParams.set("last-name", document.querySelector("#last-name").value);
+    urlParams.set("email", document.querySelector("#email").value);
+    urlParams.set("phone", document.querySelector("#phone").value);
+    urlParams.set("state", document.querySelector("#state").value);
+    urlParams.set("city", document.querySelector("#city").value);
     window.location.href = redirectUrls[industryValue] + `?${urlParams}`;
     return;
-  } 
+  }
   if (!validateForm()) {
     alert("Required field missing or invalid.");
     button.toggleAttribute("disabled");
@@ -170,17 +152,14 @@ form.addEventListener("submit", async (e) => {
     return;
   }
   const body = getValues();
-  body["customer_group"] = "wholesale_pending"
-  const response = await fetch(
-    "https://ar5vgv5qw5.execute-api.us-east-1.amazonaws.com/customer",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  body["customer_group"] = "wholesale_pending";
+  const response = await fetch("https://ar5vgv5qw5.execute-api.us-east-1.amazonaws.com/customer", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
   if (!response.ok) {
     const responseLog = await response.json();
     apiErrorField.classList.toggle("active");
@@ -189,4 +168,5 @@ form.addEventListener("submit", async (e) => {
     spinner.classList.toggle("active");
     return;
   }
+  document.querySelector(".thank-you-modal-whole")?.style.display = "flex";
 });

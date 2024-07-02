@@ -169,4 +169,9 @@ form.addEventListener("submit", async (e) => {
     return;
   }
   document.querySelector(".thank-you-modal-whole")?.style.display = "flex";
+  try{
+    fbq('track', 'Lead');
+  }catch(e){
+    console.warn("fbq lead failed.",e);
+  }
 });

@@ -153,7 +153,7 @@ form.addEventListener("submit", async (e) => {
   }
   const body = getValues();
   body["customer_group"] = "wholesale_pending";
-  const response = await fetch("https://ar5vgv5qw5.execute-api.us-east-1.amazonaws.com/customer", {
+  const response = await fetch("https://www.buckedup.com/customer/wholesale/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

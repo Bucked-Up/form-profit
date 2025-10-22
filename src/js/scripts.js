@@ -153,7 +153,7 @@ form.addEventListener("submit", async (e) => {
   }
   const body = getValues();
   body["customer_group"] = "wholesale_pending";
-  const response = await fetch("https://www.buckedup.com/customer/wholesale/register", {
+  const response = await fetch("https://webhook-processor-production-4aa3.up.railway.app/webhook/7b3da2dc-5dc9-434a-bee4-403388d1e323", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -12,9 +12,7 @@ const checkInput = (input) => {
   const matcher = document.querySelector(`[match="${input.id}"]`);
 
   const valueIsNotValid = () => {
-    return (
-      (regex && !reg.test(input.value)) || (match && input.value !== match.value) || (matcher && input.value !== matcher.value && matcher.value.length !== 0)
-    );
+    return (regex && !reg.test(input.value)) || (match && input.value !== match.value) || (matcher && input.value !== matcher.value && matcher.value.length !== 0);
   };
 
   if (input.type === "checkbox" && !input.checked) return false;
@@ -170,12 +168,11 @@ form.addEventListener("submit", async (e) => {
   }
   const modal = document.querySelector(".thank-you-modal-whole");
   if (modal) modal.style.display = "flex";
-  try {
-    fbq("track", "Lead");
-  } catch (e) {
-    console.warn("fbq lead failed.", e);
-  }
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "lead-captured",
+  });
   setTimeout(() => {
-    window.location.href = "https://buckedup.com"
+    window.location.href = "https://buckedup.com";
   }, 5000);
 });

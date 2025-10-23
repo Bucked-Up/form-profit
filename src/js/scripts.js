@@ -1,45 +1,45 @@
 const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
   const form = document.querySelector(`#${formId}`);
-  const urlParams = new URLSearchParams(window.location.search);
+  // const urlParams = new URLSearchParams(window.location.search);
 
   const createInvalid = (text) => {
     return `<p class="error-text">${text}</p>`;
   };
 
-  const getTopLevelDomain = () => {
-    const fullDomain = window.location.hostname;
-    const domainRegex = /\.([a-z]{2,})\.([a-z]{2,})$/;
-    const match = fullDomain.match(domainRegex);
-    if (match) {
-      return `.${match[1]}.${match[2]}`;
-    } else {
-      return fullDomain;
-    }
-  };
-  const cookieConfig = `path=/; domain=${getTopLevelDomain()};max-age=3600`;
-  const iti = window.intlTelInput(document.querySelector("#phone"), {
-    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/js/utils.js",
-    autoPlaceholder: "aggressive",
-    initialCountry: "auto",
-    geoIpLookup: async (success, failure) => {
-      try {
-        const cookieCountry = document.cookie.split("user_country=")[1]?.split(";")[0];
-        if (cookieCountry) {
-          success(cookieCountry);
-          return;
-        }
-        const response = await fetch("https://get.geojs.io/v1/ip/country.json");
-        const data = await response.json();
-        if (response.ok) {
-          document.cookie = `user_country=${data.country};${cookieConfig}`;
-          success(data.country);
-        } else throw new Error("Error Fetching Ip", response, data);
-      } catch (e) {
-        console.warn(e);
-        failure();
-      }
-    },
-  });
+  // const getTopLevelDomain = () => {
+  //   const fullDomain = window.location.hostname;
+  //   const domainRegex = /\.([a-z]{2,})\.([a-z]{2,})$/;
+  //   const match = fullDomain.match(domainRegex);
+  //   if (match) {
+  //     return `.${match[1]}.${match[2]}`;
+  //   } else {
+  //     return fullDomain;
+  //   }
+  // };
+  // const cookieConfig = `path=/; domain=${getTopLevelDomain()};max-age=3600`;
+  // const iti = window.intlTelInput(document.querySelector("#phone"), {
+  //   utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/js/utils.js",
+  //   autoPlaceholder: "aggressive",
+  //   initialCountry: "auto",
+  //   geoIpLookup: async (success, failure) => {
+  //     try {
+  //       const cookieCountry = document.cookie.split("user_country=")[1]?.split(";")[0];
+  //       if (cookieCountry) {
+  //         success(cookieCountry);
+  //         return;
+  //       }
+  //       const response = await fetch("https://get.geojs.io/v1/ip/country.json");
+  //       const data = await response.json();
+  //       if (response.ok) {
+  //         document.cookie = `user_country=${data.country};${cookieConfig}`;
+  //         success(data.country);
+  //       } else throw new Error("Error Fetching Ip", response, data);
+  //     } catch (e) {
+  //       console.warn(e);
+  //       failure();
+  //     }
+  //   },
+  // });
 
   // const handleKlaviyo = async () => {
   //   const formData = new FormData();
@@ -67,23 +67,23 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
   // };
 
   const checkInput = (input) => {
-    if (input.isIti && !input.isIti.isValidNumber()) {
-      input.isIti.a.classList.add("error");
-      input.isIti.a.insertAdjacentHTML("afterend", createInvalid("Invalid!"));
-      return false;
-    }
-    if (input.isIti) {
-      input.isIti.a.classList.remove("error");
-      if (input.isIti.a.nextElementSibling?.classList.contains("error-text")) input.isIti.a.nextElementSibling.remove();
-      return true;
-    }
+    // if (input.isIti && !input.isIti.isValidNumber()) {
+    //   input.isIti.a.classList.add("error");
+    //   input.isIti.a.insertAdjacentHTML("afterend", createInvalid("Invalid!"));
+    //   return false;
+    // }
+    // if (input.isIti) {
+    //   input.isIti.a.classList.remove("error");
+    //   if (input.isIti.a.nextElementSibling?.classList.contains("error-text")) input.isIti.a.nextElementSibling.remove();
+    //   return true;
+    // }
     const regex = input.getAttribute("regex");
     const reg = new RegExp(`${regex}`);
     const match = document.getElementById(input.getAttribute("match"));
     const matcher = document.querySelector(`[match="${input.id}"]`);
 
     const valueIsNotValid = () => {
-      return (regex && !reg.test(input.value)) || (match && input.value !== match.value) || (matcher && input.value !== matcher.value && matcher.value.length !== 0);
+      return !input.checkValidity() || (regex && !reg.test(input.value)) || (match && input.value !== match.value) || (matcher && input.value !== matcher.value && matcher.value.length !== 0);
     };
 
     if (input.value.trim().length === 0 || valueIsNotValid()) {
@@ -112,7 +112,7 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
     });
   };
 
-  const inputsToValidate = [document.querySelector("#email"), document.querySelector("#email-confirm"), { isIti: iti }];
+  const inputsToValidate = [document.querySelector("#email"), document.querySelector("#email-confirm"), document.querySelector("#phone")];
 
   inputsToValidate.forEach((input) => {
     addListener(input);
@@ -139,7 +139,7 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
     formFields.first_name = document.querySelector("#first-name").value;
     formFields.last_name = document.querySelector("#last-name").value;
     formFields.email = document.querySelector("#email").value;
-    formFields.phone = iti.getNumber();
+    formFields.phone = document.querySelector("#phone").value;
     formFields.industry = document.querySelector("#industry").value;
     formFields.address = {};
     formFields.address.city = document.querySelector("#city").value;
@@ -168,7 +168,7 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
       urlParams.set("first-name", document.querySelector("#first-name").value);
       urlParams.set("last-name", document.querySelector("#last-name").value);
       urlParams.set("email", document.querySelector("#email").value);
-      urlParams.set("phone", iti.getNumber());
+      urlParams.set("phone", document.querySelector("#phone").value);
       urlParams.set("state", document.querySelector("#state").value);
       urlParams.set("city", document.querySelector("#city").value);
       window.location.href = redirectUrls[industryValue] + `?${urlParams}`;

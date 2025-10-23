@@ -41,30 +41,30 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
     },
   });
 
-  const handleKlaviyo = async () => {
-    const formData = new FormData();
-    formData.set("first_name", document.querySelector("#first-name").value);
-    formData.set("last_name", document.querySelector("#last-name").value);
-    formData.set("email", document.querySelector("#email").value);
-    formData.set("phone_number", iti.getNumber());
-    formData.set("state", document.querySelector("#state").value);
-    formData.set("city", document.querySelector("#city").value);
-    formData.set("industry", document.querySelector("#industry").value);
-    const utms = Object.fromEntries(urlParams.entries());
-    Object.keys(utms).forEach((key) => {
-      formData.set(key, utms[key]);
-    });
-    formData.set("$fields", ["state", "city", "industry", ...Object.keys(utms)]);
-    const response = await fetch(`https://manage.kmail-lists.com/ajax/subscriptions/subscribe?a=${klaviyoA}&g=${klaviyoG}`, {
-      method: "POST",
-      body: formData,
-    });
-    if (!response.ok) {
-      return Promise.reject("Klaviyo Network response was not ok: " + response.statusText);
-    }
-    const data = await response.json();
-    if (!data.success) return Promise.reject("Error sending to klaviyo: " + data.errors);
-  };
+  // const handleKlaviyo = async () => {
+  //   const formData = new FormData();
+  //   formData.set("first_name", document.querySelector("#first-name").value);
+  //   formData.set("last_name", document.querySelector("#last-name").value);
+  //   formData.set("email", document.querySelector("#email").value);
+  //   formData.set("phone_number", iti.getNumber());
+  //   formData.set("state", document.querySelector("#state").value);
+  //   formData.set("city", document.querySelector("#city").value);
+  //   formData.set("industry", document.querySelector("#industry").value);
+  //   const utms = Object.fromEntries(urlParams.entries());
+  //   Object.keys(utms).forEach((key) => {
+  //     formData.set(key, utms[key]);
+  //   });
+  //   formData.set("$fields", ["state", "city", "industry", ...Object.keys(utms)]);
+  //   const response = await fetch(`https://manage.kmail-lists.com/ajax/subscriptions/subscribe?a=${klaviyoA}&g=${klaviyoG}`, {
+  //     method: "POST",
+  //     body: formData,
+  //   });
+  //   if (!response.ok) {
+  //     return Promise.reject("Klaviyo Network response was not ok: " + response.statusText);
+  //   }
+  //   const data = await response.json();
+  //   if (!data.success) return Promise.reject("Error sending to klaviyo: " + data.errors);
+  // };
 
   const checkInput = (input) => {
     if (input.isIti && !input.isIti.isValidNumber()) {
@@ -191,11 +191,11 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
       spinner.classList.toggle("active");
       return;
     }
-    try {
-      await handleKlaviyo();
-    } catch (e) {
-      console.error(e);
-    }
+    // try {
+    //   await handleKlaviyo();
+    // } catch (e) {
+    //   console.error(e);
+    // }
     const modal = document.querySelector(".thank-you-modal-whole");
     if (modal) modal.style.display = "flex";
     window.dataLayer = window.dataLayer || [];

@@ -185,7 +185,7 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
     });
     if (!response.ok) {
       const responseLog = await response.json();
-      apiErrorField.classList.toggle("active");
+      apiErrorField.classList.add("active");
       apiErrorField.innerHTML = responseLog.error_message;
       button.toggleAttribute("disabled");
       spinner.classList.toggle("active");
@@ -207,4 +207,3 @@ const handleForm = ({ formId, klaviyoA, klaviyoG }) => {
     }, 5000);
   });
 };
-handleForm({ formId: "form-wholesale", klaviyoA: "Q7VQ35", klaviyoG: "T3DSqM" });
